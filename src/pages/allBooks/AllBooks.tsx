@@ -1,9 +1,10 @@
+import BookList from "../Home/components/bookList/BookList";
 
 
 const AllBooks = () => {
     return (
         <div>
-            This is all books page
+            <BookList />
         </div>
     );
 };
