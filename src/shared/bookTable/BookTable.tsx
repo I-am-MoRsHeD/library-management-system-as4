@@ -5,13 +5,15 @@ import EditBookForm from "@/components/editBookForm/EditBookForm";
 import type { Book } from "@/interfaces";
 import Swal from 'sweetalert2';
 import BorrowBookForm from "@/components/borrowBookForm/BorrowBookForm";
-import { useDeleteBookMutation, useGetBooksQuery } from "@/redux/api/baseApi";
+import { useDeleteBookMutation } from "@/redux/api/baseApi";
 import Spinner from "../spinner/Spinner";
+interface BookTableProps {
+    tableData: Book[];
+    isLoading: boolean
+}
 
 const headers = ["S.No.", "Title", "Author", "Genre", "ISBN", "Copies", "Availability", "Actions",];
-
-const BookTable = () => {
-    const { data: tableData, isLoading } = useGetBooksQuery(undefined);
+const BookTable:React.FC<BookTableProps> = ({tableData, isLoading}) => {
     const [deleteBook] = useDeleteBookMutation();
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -20,7 +22,6 @@ const BookTable = () => {
     const handleEdit = (book: Book) => {
         setSelectedBook(book);
         setEditModalOpen(true);
-        console.log(selectedBook);
     };
     const handleBorrow = (book: Book) => {
         setSelectedBook(book);
@@ -74,8 +75,8 @@ const BookTable = () => {
                         </tr>
 
                     ) : (
-                        tableData?.data?.length > 0 ? (
-                            tableData?.data?.map((book: Book, index: number) => (
+                        tableData?.length > 0 ? (
+                            tableData?.map((book: Book, index: number) => (
                                 <tr key={index} className="hover:bg-gray-200 duration-100 cursor-pointer">
                                     <td className="px-2 py-4 border-y">{index + 1}</td>
                                     <td className="px-2 py-4 border-y">{book.title?.length > 20 ? `${book.title?.slice(0, 20)}...` : book.title}</td>
@@ -118,7 +119,7 @@ const BookTable = () => {
                             onClose={() => setEditModalOpen(false)
                             }
                         >
-                            <EditBookForm />
+                            <EditBookForm book={selectedBook as Book} setEditModalOpen={setEditModalOpen} />
                         </Modal>
                         :
                         borrowModalOpen &&

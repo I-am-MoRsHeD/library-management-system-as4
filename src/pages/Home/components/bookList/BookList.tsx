@@ -1,12 +1,14 @@
+import { useGetBooksQuery } from "@/redux/api/baseApi";
 import BookTable from "@/shared/bookTable/BookTable";
+import SectionTitle from "@/shared/sectionTitle/SectionTitle";
 
 
 const BookList = () => {
-
+    const { data, isLoading } = useGetBooksQuery(undefined);
     return (
         <div className="my-5">
-            <h3 className="border-b-[2px] border-black w-20 text-center rounded-b-xl">Book List</h3>
-            <BookTable />
+            <SectionTitle title="Book List" />
+            <BookTable tableData={data?.data?.slice(0, 5)} isLoading={isLoading} />
         </div>
     );
 };

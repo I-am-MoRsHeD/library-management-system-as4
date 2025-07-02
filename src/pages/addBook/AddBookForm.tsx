@@ -10,6 +10,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Spinner from "@/shared/spinner/Spinner";
 import { useNavigate } from "react-router";
+import SectionTitle from "@/shared/sectionTitle/SectionTitle";
 
 const formSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -58,9 +59,7 @@ const AddBookForm = () => {
 
     return (
         <div className="my-5">
-            <h3 className="border-b-[2px] border-black w-20 text-center rounded-b-xl">
-                Add Book
-            </h3>
+            <SectionTitle title="Add Book" />
             <div className="bg-gray-600 p-3 my-2 rounded-md">
                 <Form {...form}>
                     <form
