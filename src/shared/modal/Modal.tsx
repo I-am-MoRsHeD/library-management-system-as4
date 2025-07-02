@@ -1,50 +1,36 @@
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+'use client';
 
-export function Modal() {
-  return (
-    <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button variant="outline">Open Dialog</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
-    </Dialog>
-  )
+import type { ReactNode } from 'react';
+
+interface ModalProps {
+    isOpen: boolean;
+    onClose?: () => void;
+    children: ReactNode;
+    modalClassName?: string;
 }
+
+const Modal: React.FC<ModalProps> = ({
+    isOpen,
+    onClose,
+    children,
+    modalClassName = '',
+}) => {
+    return (
+        <div
+            onClick={onClose}
+            className={`fixed inset-0 z-[999999] flex items-center justify-center bg-black/20 backdrop-brightness-50 backdrop-blur-sm transition-opacity duration-300 px-4 lg:px-0 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                }`}
+        >
+            <div
+                onClick={(e) => e.stopPropagation()}
+                className={`relative bg-white dark:bg-zinc-900 dark:text-white rounded-xl shadow-lg transition-transform duration-300 ${modalClassName}`}
+            >
+                <div>
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Modal;
