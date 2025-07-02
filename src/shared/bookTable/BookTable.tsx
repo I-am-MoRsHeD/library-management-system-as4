@@ -26,7 +26,6 @@ const BookTable:React.FC<BookTableProps> = ({tableData, isLoading}) => {
     const handleBorrow = (book: Book) => {
         setSelectedBook(book);
         setBorrowModalOpen(true);
-        console.log(selectedBook);
     };
     const handleDelete = (id: string) => {
         Swal.fire({
@@ -128,7 +127,7 @@ const BookTable:React.FC<BookTableProps> = ({tableData, isLoading}) => {
                             onClose={() => setBorrowModalOpen(false)
                             }
                         >
-                            <BorrowBookForm />
+                            <BorrowBookForm selectedBook={selectedBook as Book} setBorrowModalOpen={setBorrowModalOpen} />
                         </Modal>
                 }
             </>

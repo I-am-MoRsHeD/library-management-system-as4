@@ -7,4 +7,10 @@ export interface Book {
     copies: number;
     description: string;
     available: boolean;
+};
+
+export interface BorrowedBook {
+    _id : string;
+    totalQuantity : number;
+    book : Book
 }

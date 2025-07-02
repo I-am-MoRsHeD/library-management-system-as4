@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <div
             onClick={onClose}
-            className={`fixed inset-0 z-[999999] flex items-center justify-center bg-black/10 backdrop-brightness-75 backdrop-blur-xs transition-opacity duration-300 px-4 lg:px-0 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+            className={`fixed inset-0 z-[9] flex items-center justify-center bg-black/10 backdrop-brightness-75 backdrop-blur-xs transition-opacity duration-300 px-4 lg:px-0 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
                 }`}
         >
             <div
