@@ -3,6 +3,8 @@ import Modal from "../modal/Modal";
 import { useState } from "react";
 import EditBookForm from "@/components/editBookForm/EditBookForm";
 import type { Book } from "@/interfaces";
+import Swal from 'sweetalert2';
+import BorrowBookForm from "@/components/borrowBookForm/BorrowBookForm";
 
 const tableData = [
     {
@@ -63,20 +65,44 @@ const headers = [
 ];
 
 const BookTable = () => {
-    const [selectedBook,setSelectedBook] = useState<Book | null>(null);
+    const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [editModalOpen, setEditModalOpen] = useState(false);
-    const handleEdit = (book : Book) => {
+    const [borrowModalOpen, setBorrowModalOpen] = useState(false);
+    const handleEdit = (book: Book) => {
         setSelectedBook(book);
         setEditModalOpen(true);
+        console.log(selectedBook);
     };
-    console.log(selectedBook);
-    const handleDelete = (title: string) => {
-        alert(`Delete book: ${title}`);
+    const handleBorrow = (book: Book) => {
+        setSelectedBook(book);
+        setBorrowModalOpen(true);
+        console.log(selectedBook);
+    };
+
+    const handleDelete = (book: Book) => {
+        console.log(book);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
     };
 
     return (
-        <div className="my-5">
-            <table className="w-full overflow-auto">
+        <div className="my-5 w-full overflow-x-auto">
+            <table className="w-[800px] lg:w-full">
                 <thead>
                     <tr className="bg-gray-100">
                         {headers.map((header) => (
@@ -100,15 +126,14 @@ const BookTable = () => {
                                     <button onClick={() => handleEdit(book)} title="Edit">
                                         <Pencil className="text-blue-600 hover:text-blue-800 w-5 h-5 cursor-pointer" />
                                     </button>
-                                    <button onClick={() => alert(`Borrow book: ${book.title}`)} title="Borrow">
+                                    <button onClick={() => handleBorrow(book)} title="Borrow">
                                         <BookOpen className="text-green-600 hover:text-green-800 w-5 h-5 cursor-pointer" />
                                     </button>
-                                    <button onClick={() => handleDelete(book.title)} title="Delete">
+                                    <button onClick={() => handleDelete(book)} title="Delete">
                                         <Trash2 className="text-red-600 hover:text-red-800 w-5 h-5 cursor-pointer" />
                                     </button>
                                 </div>
                             </td>
-
                         </tr>
                     ))}
                 </tbody>
@@ -116,16 +141,22 @@ const BookTable = () => {
 
             <>
                 {
-                    editModalOpen && (
+                    editModalOpen ?
                         <Modal
                             isOpen={editModalOpen}
                             onClose={() => setEditModalOpen(false)
                             }
                         >
                             <EditBookForm />
-                        </Modal>
-
-                    )
+                        </Modal> :
+                    borrowModalOpen &&
+                        <Modal
+                            isOpen={borrowModalOpen}
+                            onClose={() => setBorrowModalOpen(false)
+                            }
+                        >
+                            <BorrowBookForm />
+                        </Modal> 
                 }
             </>
         </div>

@@ -18,7 +18,7 @@ const Navbar = () => {
                     } to="/create-book">Add Book</NavLink>
                     <NavLink className={({ isActive }) =>
                         `${commonClass} ${isActive ? "underline font-bold" : ""}`
-                    } to="/borrow-summury">Borrow Summury</NavLink>
+                    } to="/borrow-summary">Borrow Summary</NavLink>
                 </div>
             </div>
         </div>
