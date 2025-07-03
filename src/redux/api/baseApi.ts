@@ -9,7 +9,7 @@ const baseApi = createApi({
     tagTypes: ['Book'],
     endpoints: (builder) => ({
         getBooks: builder.query({
-            query: () => 'books',
+            query: ({ page = 1, limit = 10 }) => `books?page=${page}&limit=${limit}`,
             providesTags: ['Book']
         }),
         createBook: builder.mutation({
@@ -36,7 +36,7 @@ const baseApi = createApi({
             invalidatesTags: ['Book']
         }),
         borrowedBooks: builder.query({
-            query: () => 'borrow',
+            query: ({ page = 1, limit = 10 }) => `borrow?page=${page}&limit=${limit}`,
             providesTags: ['Book']
         }),
         borrowBook: builder.mutation({

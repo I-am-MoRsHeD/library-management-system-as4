@@ -60,7 +60,7 @@ const AddBookForm = () => {
     return (
         <div className="my-5">
             <SectionTitle title="Add Book" />
-            <div className="bg-gray-600 p-3 my-2 rounded-md">
+            <div className="bg-gray-600 p-3 my-2 mx-2 lg:mx-0 rounded-md">
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
@@ -84,7 +84,7 @@ const AddBookForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex flex-col lg:flex-row gap-5 w-full">
+                        <div className="flex flex-col md:flex-row gap-5 w-full">
                             <FormField
                                 control={form.control}
                                 name="author"
@@ -122,7 +122,7 @@ const AddBookForm = () => {
                                 )}
                             />
                         </div>
-                        <div className="flex flex-col lg:flex-row gap-5 w-full">
+                        <div className="flex flex-col md:flex-row gap-5 w-full">
                             <FormField
                                 control={form.control}
                                 name="isbn"

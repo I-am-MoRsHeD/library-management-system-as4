@@ -85,7 +85,7 @@ const EditBookForm = ({ book, setEditModalOpen }: { book: Book; setEditModalOpen
                                 </FormItem>
                             )}
                         />
-                        <div className="flex flex-col lg:flex-row gap-5 w-full">
+                        <div className="flex flex-col md:flex-row gap-5 w-full">
                             <FormField
                                 control={form.control}
                                 name="author"
@@ -123,7 +123,7 @@ const EditBookForm = ({ book, setEditModalOpen }: { book: Book; setEditModalOpen
                                 )}
                             />
                         </div>
-                        <div className="flex flex-col lg:flex-row gap-5 w-full">
+                        <div className="flex flex-col md:flex-row gap-5 w-full">
                             <FormField
                                 control={form.control}
                                 name="isbn"
