@@ -7,17 +7,23 @@ import Swal from 'sweetalert2';
 import BorrowBookForm from "@/components/borrowBookForm/BorrowBookForm";
 import { useDeleteBookMutation } from "@/redux/api/baseApi";
 import Spinner from "../spinner/Spinner";
+import { useNavigate } from "react-router";
 interface BookTableProps {
     tableData: Book[];
     isLoading: boolean
 }
 
 const headers = ["S.No.", "Title", "Author", "Genre", "ISBN", "Copies", "Availability", "Actions",];
-const BookTable:React.FC<BookTableProps> = ({tableData, isLoading}) => {
+const BookTable: React.FC<BookTableProps> = ({ tableData, isLoading }) => {
     const [deleteBook] = useDeleteBookMutation();
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [borrowModalOpen, setBorrowModalOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleBook = (id: string) => {
+        navigate(`/book/${id}`);
+    }
 
     const handleEdit = (book: Book) => {
         setSelectedBook(book);
@@ -76,7 +82,7 @@ const BookTable:React.FC<BookTableProps> = ({tableData, isLoading}) => {
                     ) : (
                         tableData?.length > 0 ? (
                             tableData?.map((book: Book, index: number) => (
-                                <tr key={index} className="hover:bg-gray-200 duration-100 cursor-pointer">
+                                <tr onClick={() => handleBook(book?._id)} key={index} className="hover:bg-gray-200 duration-100 cursor-pointer">
                                     <td className="px-2 py-4 border-y">{index + 1}</td>
                                     <td className="px-2 py-4 border-y">{book.title?.length > 20 ? `${book.title?.slice(0, 20)}...` : book.title}</td>
                                     <td className="px-2 py-4 border-b">{book.author}</td>
