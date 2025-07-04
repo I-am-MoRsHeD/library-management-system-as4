@@ -8,7 +8,7 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import Spinner from "@/shared/spinner/Spinner";
 import { useState } from "react";
-import type { Book } from "@/interfaces";
+import type { Book, ErrorResponse } from "@/interfaces";
 import toast from "react-hot-toast";
 import { useUpdateBookMutation } from "@/redux/api/baseApi";
 
@@ -47,12 +47,28 @@ const EditBookForm = ({ book, setEditModalOpen }: { book: Book; setEditModalOpen
             };
             const res = await updateBook(updatedData);
 
-            if (res?.data?.success === true) {
+            if ("error" in res && res.error) {
+                if ("data" in res.error) {
+                    const errorData = res.error.data as ErrorResponse;
+
+                    const errorMsg =
+                        errorData?.errorMessages?.[0]?.message || errorData?.message || "Error borrowing book";
+
+                    toast.error(errorMsg);
+                } else {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-expect-error
+                    toast.error(res.error.message || "Error borrowing book");
+                }
+            } else {
                 setEditModalOpen(false);
                 toast.success(res?.data?.message);
-            };
-        } catch (error) {
-            console.log(error);
+            }
+        } catch (error: unknown) {
+            if (error) {
+                const errorWithResponse = error as { response: { data: { message: string } } };
+                toast.error(errorWithResponse?.response?.data?.message);
+            }
         } finally {
             setLoading(false);
         }

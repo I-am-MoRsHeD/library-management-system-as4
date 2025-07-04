@@ -1,5 +1,5 @@
 export interface Book {
-    _id : string;
+    _id: string;
     title: string;
     author: string;
     genre: string;
@@ -10,7 +10,18 @@ export interface Book {
 };
 
 export interface BorrowedBook {
-    _id : string;
-    totalQuantity : number;
-    book : Book
-}
+    _id: string;
+    totalQuantity: number;
+    book: Book
+};
+
+export interface ErrorMessage {
+    path: string;
+    message: string;
+};
+
+export interface ErrorResponse {
+    success: false;
+    message: string;
+    errorMessages: ErrorMessage[];
+};

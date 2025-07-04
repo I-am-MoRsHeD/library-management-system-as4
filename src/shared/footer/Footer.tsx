@@ -13,7 +13,7 @@ const Footer = () => {
                     </div>
                     <div className="">
                         <p className="underline italic">Features</p>
-                        <div className="space-y-1 lg:space-y-3 flex flex-col text-xs lg:text-base">
+                        <div className="space-y-1 lg:space-y-3 flex flex-col text-xs lg:text-base mt-1 lg:mt-3">
                             <Link to="/books">All Books</Link>
                             <Link to="/create-book">Add Book</Link>
                             <Link to="/borrow-summary">Borrow Summary</Link>

@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import Spinner from "@/shared/spinner/Spinner";
 import { useNavigate } from "react-router";
 import SectionTitle from "@/shared/sectionTitle/SectionTitle";
+import type { ErrorResponse } from "@/interfaces";
 
 const formSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -43,14 +44,32 @@ const AddBookForm = () => {
         try {
             setLoading(true);
             const res = await createBook(data);
+            
+            if ("error" in res && res.error) {
+                if ("data" in res.error) {
+                    const errorData = res.error.data as ErrorResponse;
 
-            if (res?.data?.success === true) {
+                    const errorMsg =
+                        errorData?.errorMessages?.[0]?.message || errorData?.message || "Error borrowing book";
+
+                    toast.error(errorMsg);
+                    console.log(errorData);
+                } else {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-expect-error
+                    toast.error(res.error.message || "Error borrowing book");
+                }
+            } else {
                 form.reset();
                 toast.success(res?.data?.message);
                 navigate('/books');
-            };
-        } catch (error) {
-            console.log(error);
+            }
+
+        } catch (error: unknown) {
+            if (error) {
+                const errorWithResponse = error as { response: { data: { message: string } } };
+                toast.error(errorWithResponse?.response?.data?.message);
+            }
         } finally {
             setLoading(false);
         }

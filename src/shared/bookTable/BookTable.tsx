@@ -25,15 +25,21 @@ const BookTable: React.FC<BookTableProps> = ({ tableData, isLoading }) => {
         navigate(`/book/${id}`);
     }
 
-    const handleEdit = (book: Book) => {
+    const handleEdit = (e: React.MouseEvent, book: Book) => {
+        e.preventDefault();
+        e.stopPropagation();
         setSelectedBook(book);
         setEditModalOpen(true);
     };
-    const handleBorrow = (book: Book) => {
+    const handleBorrow = (e: React.MouseEvent, book: Book) => {
+        e.preventDefault();
+        e.stopPropagation();
         setSelectedBook(book);
         setBorrowModalOpen(true);
     };
-    const handleDelete = (id: string) => {
+    const handleDelete = (e: React.MouseEvent, id: string) => {
+        e.preventDefault();
+        e.stopPropagation();
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -92,13 +98,13 @@ const BookTable: React.FC<BookTableProps> = ({ tableData, isLoading }) => {
                                     <td className="px-2 py-4 border-b">{book.available ? "Yes" : "No"}</td>
                                     <td className="p-2 border-b">
                                         <div className="flex gap-3">
-                                            <button onClick={() => handleEdit(book)} title="Edit">
+                                            <button onClick={(e) => handleEdit(e, book)} title="Edit">
                                                 <Pencil className="text-blue-600 hover:text-blue-800 w-5 h-5 cursor-pointer" />
                                             </button>
-                                            <button onClick={() => handleBorrow(book)} title="Borrow">
+                                            <button onClick={(e) => handleBorrow(e, book)} title="Borrow">
                                                 <BookOpen className="text-green-600 hover:text-green-800 w-5 h-5 cursor-pointer" />
                                             </button>
-                                            <button onClick={() => handleDelete(book?._id)} title="Delete">
+                                            <button onClick={(e) => handleDelete(e, book?._id)} title="Delete">
                                                 <Trash2 className="text-red-600 hover:text-red-800 w-5 h-5 cursor-pointer" />
                                             </button>
                                         </div>

@@ -14,7 +14,7 @@ const Borrow_Summary = () => {
         refetchOnMountOrArgChange: true,
         refetchOnReconnect: true,
     });
-    console.log(borrowedBooks);
+
     return (
         <div className="my-5 w-full overflow-x-auto">
             <SectionTitle title="Borrow Summary" width="w-36" />

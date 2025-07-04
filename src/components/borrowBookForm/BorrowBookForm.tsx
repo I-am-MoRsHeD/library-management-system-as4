@@ -1,4 +1,4 @@
-import type { Book } from "@/interfaces";
+import type { Book, ErrorResponse } from "@/interfaces";
 import SectionTitle from "@/shared/sectionTitle/SectionTitle";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { useForm } from "react-hook-form";
@@ -44,14 +44,31 @@ const BorrowBookForm = ({ selectedBook, setBorrowModalOpen }: { selectedBook: Bo
                 dueDate: data.dueDate
             };
             const res = await borrowBook(bookData);
-            console.log(res);
-            if (res?.data?.success === true) {
+
+            if ("error" in res && res.error) {
+                if ("data" in res.error) {
+                    const errorData = res.error.data as ErrorResponse;
+
+                    const errorMsg =
+                        errorData?.errorMessages?.[0]?.message || errorData?.message || "Error borrowing book";
+
+                    toast.error(errorMsg);
+                } else {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-expect-error
+                    toast.error(res.error.message || "Error borrowing book");
+                }
+            } else {
                 setBorrowModalOpen(false);
                 toast.success(res?.data?.message);
                 navigate('/borrow-summary');
             };
-        } catch (error) {
-            console.log(error);
+
+        } catch (error: unknown) {
+            if (error) {
+                const errorWithResponse = error as { response: { data: { message: string } } };
+                toast.error(errorWithResponse?.response?.data?.message);
+            }
         } finally {
             setLoading(false);
         }
